@@ -9,20 +9,21 @@ jobs:
     container: slackware/base
 
     steps:
+      - name: Download make source
+        run: wget --recursive -nH --cut-dirs=5 ftp://ftp.slackware.com/pub/slackware/slackware-current/source/d/make/
+
       - name: Install make
+        working-directory: make
         run: |
-          wget --recursive -nH --cut-dirs=5 ftp://ftp.slackware.com/pub/slackware/slackware-current/source/d/make/
-          ./make/make.SlackBuild
+          chmod u+x make.SlackBuild
+          ./make.SlackBuild
 
       - name: Download SlackBuild
-        run: |
-          wget --no-check-certificate -O- https://slackbuilds.org/slackbuilds/15.0/system/btop.tar.gz | tar -xz
+        run: wget --no-check-certificate -O- https://slackbuilds.org/slackbuilds/15.0/system/btop.tar.gz | tar -xz
 
-      - name: Download btop
+      - name: Download btop source
         working-directory: btop
-        run: |
-          source ./btop.info
-          wget --no-check-certificate $DOWNLOAD
+        run: source ./btop.info && wget --no-check-certificate $DOWNLOAD
 
       - name: Build Package
         working-directory: btop
@@ -30,4 +31,6 @@ jobs:
           TAG: _pkg
           OUTPUT: /opt
           PKGTYPE: txz
-        run: ./btop.SlackBuild
+        run: |
+          chmod u+x btop.SlackBuild
+          ./btop.SlackBuild
