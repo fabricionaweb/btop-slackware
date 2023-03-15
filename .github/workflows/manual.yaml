@@ -14,14 +14,21 @@ jobs:
 
       - name: Download btop source
         working-directory: btop
-        run: source ./btop.info && wget --no-check-certificate $DOWNLOAD
+        run: |
+          source ./btop.info && wget --no-check-certificate $DOWNLOAD
+          echo "version=$VERSION" >> $GITHUB_ENV
 
       - name: Build Package
         working-directory: btop
         env:
-          TAG: _pkg
           OUTPUT: /opt
           PKGTYPE: txz
         run: |
           chmod u+x btop.SlackBuild
           ./btop.SlackBuild
+
+      - name: Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: btop-${{ env.version }}-x86_64
+          path: /opt/btop-*.txz
