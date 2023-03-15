@@ -9,6 +9,12 @@ jobs:
     container: slackware/base
 
     steps:
+      - name: Install lzip
+        run: |
+          wget --no-check-certificate https://slackware.uk/slackware/slackware64-15.0/slackware64/a/lzip-1.22-x86_64-3.txz
+          installpkg lzip-*.txz
+          rm lzip-*.txz
+
       - name: Download make source
         run: wget --recursive -nH --cut-dirs=5 ftp://ftp.slackware.com/pub/slackware/slackware-current/source/d/make/
 
