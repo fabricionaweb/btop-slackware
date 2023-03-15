@@ -6,24 +6,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: slackware/base
+    container: andy5995/slackware-build-essential:15.0
 
     steps:
-      - name: Install lzip
-        run: |
-          wget --no-check-certificate https://slackware.uk/slackware/slackware64-15.0/slackware64/a/lzip-1.22-x86_64-3.txz
-          installpkg lzip-*.txz
-          rm lzip-*.txz
-
-      - name: Download make source
-        run: wget --recursive -nH --cut-dirs=5 ftp://ftp.slackware.com/pub/slackware/slackware-current/source/d/make/
-
-      - name: Install make
-        working-directory: make
-        run: |
-          chmod u+x make.SlackBuild
-          ./make.SlackBuild
-
       - name: Download SlackBuild
         run: wget --no-check-certificate -O- https://slackbuilds.org/slackbuilds/15.0/system/btop.tar.gz | tar -xz
 
