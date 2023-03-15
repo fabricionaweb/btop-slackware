@@ -1,0 +1,5 @@
+wget --no-check-certificate -O- https://slackbuilds.org/slackbuilds/15.0/system/btop.tar.gz | tar -xz -C /opt
+cd /opt/btop
+source ./btop.info
+wget --no-check-certificate $DOWNLOAD
+OUTPUT=$(pwd) PKGTYPE=txz ./btop.SlackBuild

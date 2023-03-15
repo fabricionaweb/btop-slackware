@@ -1,0 +1,28 @@
+name: Generate new image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: slackware/base
+
+    steps:
+      - name: Download SlackBuild
+        run: |
+          wget --no-check-certificate -O- https://slackbuilds.org/slackbuilds/15.0/system/btop.tar.gz | tar -xz
+
+      - name: Download btop
+        working-directory: btop
+        run: |
+          source ./btop.info
+          wget --no-check-certificate $DOWNLOAD
+
+      - name: Build Package
+        working-directory: btop
+        env:
+          TAG: _pkg
+          OUTPUT: /opt
+          PKGTYPE: txz
+        run: ./btop.SlackBuild
