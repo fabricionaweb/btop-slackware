@@ -9,6 +9,11 @@ jobs:
     container: slackware/base
 
     steps:
+      - name: Install make
+        run: |
+          wget --recursive -nH --cut-dirs=5 ftp://ftp.slackware.com/pub/slackware/slackware-current/source/d/make/
+          ./make/make.SlackBuild
+
       - name: Download SlackBuild
         run: |
           wget --no-check-certificate -O- https://slackbuilds.org/slackbuilds/15.0/system/btop.tar.gz | tar -xz
